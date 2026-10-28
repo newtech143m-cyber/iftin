@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="so">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Iftin — Soo deji App-ka | Shirkada Laydhka Iftin</title>
+<meta name="description" content="Soo deji app-ka Shirkada Laydhka Iftin: arag deyntaada korontada, biilasha, lacag-bixinta, wararka iyo ogeysiisyada.">
+<meta property="og:title" content="Shirkada Laydhka Iftin — Soo deji App-ka">
+<meta property="og:description" content="Laydh Nadiif ah • Mustaqbal Wanaagsan. App Android ah oo aad ku aragto deyntaada, biilashaada iyo wararka shirkadda.">
+<meta property="og:image" content="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/og.jpg">
+<meta property="og:url" content="https://duale-portfolio.vercel.app/iftin">
+<meta name="theme-color" content="#0b1530">
+<link rel="icon" href="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@600;800&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f6fc;--card:#ffffff;--ink:#0f1c3f;--mut:#56627e;--line:#e2e8f5;--pri:#1a5cf0;--pri2:#3b82ff;--yel:#f5b400;--yel1:#ffd60a;--navy:#0b1530;--chip:#eaf0ff}
+@media (prefers-color-scheme:dark){:root{--bg:#071229;--card:#0e1b3a;--ink:#eaf1ff;--mut:#9fb0d4;--line:#1d2c53;--pri:#3b82ff;--pri2:#5b9bff;--chip:#16264d}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Nunito Sans',system-ui,-apple-system,Roboto,Arial,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:'Rubik',system-ui,sans-serif;line-height:1.1}
+/* hero */
+.hero{background:radial-gradient(circle at 75% 20%,#1b3a85 0%,#0b1530 60%);color:#eaf1ff;padding:28px 0 64px;overflow:hidden}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.back{font-size:14px;font-weight:600;color:#9fb6ec;padding:8px 14px;border:1px solid rgba(255,255,255,.18);border-radius:999px}
+.back:hover{background:rgba(255,255,255,.08)}
+.hgrid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;margin-top:36px}
+.brand{display:flex;align-items:center;gap:16px}
+.brand img{width:84px;height:84px;filter:drop-shadow(0 8px 20px rgba(245,180,0,.35))}
+.bn{font-family:'Rubik',sans-serif;font-weight:800;font-size:56px;letter-spacing:2px;color:#fff;line-height:1}
+.bs{font-family:'Rubik',sans-serif;font-weight:600;font-size:15px;letter-spacing:4px;color:var(--yel)}
+.tag{font-style:italic;color:#8fb0ff;margin-top:14px;font-size:17px}
+.lead{font-size:20px;color:#d3defa;margin:22px 0 28px;max-width:520px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:17px;padding:16px 26px;border-radius:16px;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-y{background:linear-gradient(135deg,var(--yel1),var(--yel));color:#0b1530;box-shadow:0 12px 28px rgba(245,180,0,.35)}
+.btn-o{border:1.5px solid rgba(255,255,255,.28);color:#fff}
+.btn-o:hover{background:rgba(255,255,255,.08)}
+.meta{font-size:14px;color:#9fb0d4;margin-top:14px}
+.phones{position:relative;height:520px}
+.phones img{position:absolute;width:230px;border-radius:30px;border:5px solid #24365f;box-shadow:0 30px 60px rgba(0,0,0,.45)}
+.phones .p1{left:0;top:50px;transform:rotate(-6deg)}
+.phones .p3{right:0;top:50px;transform:rotate(6deg)}
+.phones .p2{left:50%;top:0;transform:translateX(-50%);width:250px;z-index:2}
+/* sections */
+section{padding:64px 0}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--pri)}
+.sh{font-size:36px;margin:8px 0 28px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px}
+.card .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--chip);color:var(--pri);margin-bottom:14px}
+.card h3{font-size:20px;margin-bottom:6px}
+.card p{color:var(--mut);font-size:15.5px}
+.shots{display:flex;gap:18px;overflow-x:auto;padding:6px 2px 18px;scroll-snap-type:x mandatory}
+.shots figure{flex:0 0 220px;scroll-snap-align:start}
+.shots img{width:220px;border-radius:26px;border:4px solid var(--line);box-shadow:0 14px 30px rgba(20,40,100,.12);display:block}
+.shots figcaption{font-size:14px;color:var(--mut);text-align:center;margin-top:10px;font-weight:600}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;position:relative}
+.step::before{counter-increment:s;content:counter(s);font-family:'Rubik',sans-serif;font-weight:800;font-size:34px;color:var(--yel);display:block;margin-bottom:6px}
+.step h3{font-size:18px;margin-bottom:6px}
+.step p{color:var(--mut);font-size:15px}
+.band{background:linear-gradient(135deg,var(--yel1),var(--yel));color:#0b1530;border-radius:26px;padding:36px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px}
+.band h2{font-size:30px}
+.band p{font-weight:600;margin-top:6px}
+.band .btn{background:#0b1530;color:#fff}
+.note{font-size:14px;color:var(--mut);margin-top:16px}
+footer{padding:36px 0 48px;color:var(--mut);font-size:14px;text-align:center}
+footer a{color:var(--pri);font-weight:700}
+@media (max-width:860px){
+  .hgrid{grid-template-columns:1fr}
+  .phones{height:420px;max-width:420px;margin:10px auto 0;width:100%}
+  .phones img{width:170px}.phones .p2{width:190px}
+  .grid3{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .bn{font-size:46px}
+  .sh{font-size:30px}
+}
+@media (max-width:520px){
+  .grid3,.steps{grid-template-columns:1fr}
+  .btn{width:100%;justify-content:center}
+  .phones{height:360px}.phones img{width:140px}.phones .p2{width:160px}
+  .lead{font-size:18px}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="top">
+      <a class="back" href="/">← Duale Portfolio</a>
+      <a class="back" href="#install">Sida loo rakibo</a>
+    </div>
+    <div class="hgrid">
+      <div>
+        <div class="brand">
+          <img src="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/logo.png" alt="Calaamadda Iftin">
+          <div><div class="bn">IFTIN</div><div class="bs">ELECTRIC COMPANY</div></div>
+        </div>
+        <p class="tag">Laydh Nadiif ah • Mustaqbal Wanaagsan</p>
+        <p class="lead">App-ka rasmiga ah ee <b>Shirkada Laydhka Iftin</b>. Arag deyntaada korontada, biilashaada, lacagihii aad bixisay iyo wararka shirkadda — meel kasta oo aad joogto.</p>
+        <div class="cta">
+          <a class="btn btn-y" id="dl" href="https://github.com/newtech143m-cyber/iftin/raw/main/app/Iftin.apk" download="Iftin.apk">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+            Soo deji App-ka (Android)
+          </a>
+          <a class="btn btn-o" href="https://koronto-pay-app.vercel.app" target="_blank" rel="noopener">Ku fur browser-ka</a>
+        </div>
+        <p class="meta">Nooca 1.4 · Android 7 iyo wixii ka dambeeyay · ~62 KB · Bilaash</p>
+      </div>
+      <div class="phones" aria-hidden="true">
+        <img class="p1" src="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/30-portal-light.jpg" alt="">
+        <img class="p3" src="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/31-news.jpg" alt="">
+        <img class="p2" src="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/30-portal-dark.jpg" alt="">
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Waxa aad heleyso</p>
+    <h2 class="sh">Wax walba oo koronto kuu khuseeya, hal meel</h2>
+    <div class="grid3">
+      <div class="card"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div><h3>Deyntaada</h3><p>Wadarta lagugu leeyahay iyo biil kasta oo aan la bixin, si cad.</p></div>
+      <div class="card"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></div><h3>Rasiidyo iyo Statement</h3><p>Lacag kasta oo aad bixiso waxay leedahay rasiid. Statement PDF hal riix.</p></div>
+      <div class="card"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></div><h3>Ogeysiisyo degdeg ah</h3><p>Pop-up iyo dhawaq marka biil laguu daro, lacag la helo ama war cusub soo baxo.</p></div>
+      <div class="card"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8z"/></svg></div><h3>Wararka shirkadda</h3><p>Dayactirka, isbeddelada iyo dhacdooyinka. Like-garee oo faallo ka bixi.</p></div>
+      <div class="card"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></div><h3>Cilad-sheegid</h3><p>Koronto la'aan ama mitir cilladaysan? Si toos ah ugu sheeg xafiiska.</p></div>
+      <div class="card"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></div><h3>Light iyo Dark</h3><p>Muuqaal qurux badan oo habeenkii indhaha u fudud. Wuxuu ku shaqeeyaa H+ iyo 4G.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">Shaashadaha</p>
+    <h2 class="sh">Eeg sida uu u egyahay</h2>
+    <div class="shots">
+      <figure><img loading="lazy" src="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/30-portal-light.jpg" alt="Bogga macmiilka"><figcaption>Bogga hore</figcaption></figure>
+      <figure><img loading="lazy" src="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/30-portal-dark.jpg" alt="Bogga macmiilka dark mode"><figcaption>Dark mode</figcaption></figure>
+      <figure><img loading="lazy" src="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/31-news.jpg" alt="Wararka"><figcaption>Wararka</figcaption></figure>
+      <figure><img loading="lazy" src="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/33-support.jpg" alt="Cilad-sheegid"><figcaption>Cilad-sheegid</figcaption></figure>
+      <figure><img loading="lazy" src="https://raw.githubusercontent.com/newtech143m-cyber/iftin/main/img/14-receipt.jpg" alt="Rasiid"><figcaption>Rasiidka</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="install" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">Sida loo rakibo</p>
+    <h2 class="sh">Afar tallaabo oo fudud</h2>
+    <div class="steps">
+      <div class="step"><h3>Soo deji</h3><p>Riix badhanka jaalaha ah ee “Soo deji App-ka”. Faylka <b>Iftin.apk</b> ayaa soo degaya.</p></div>
+      <div class="step"><h3>Fur faylka</h3><p>Ka fur ogeysiiska download-ka ama galka <b>Download</b>.</p></div>
+      <div class="step"><h3>Oggolow</h3><p>Haddii la weydiiyo, dooro <b>Settings → Allow from this source</b>, kadibna <b>Install</b>.</p></div>
+      <div class="step"><h3>Gal</h3><p>Ku gal <b>username</b> iyo <b>password</b>-ka xafiiska laga siiyay, kadibna oggolow ogeysiisyada.</p></div>
+    </div>
+    <p class="note">Haddii aad hore u haysatay nooc hore, si toos ah ayuu cusboonaysiinayaa — xogtaadu ma lunto.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="band">
+      <div><h2>Diyaar ma u tahay?</h2><p>Soo deji app-ka oo la soco korontadaada maalin kasta.</p></div>
+      <a class="btn" href="https://github.com/newtech143m-cyber/iftin/raw/main/app/Iftin.apk" download="Iftin.apk">⬇ Soo deji App-ka</a>
+    </div>
+    <p class="note">Akoon ma lihid? La xiriir xafiiska Shirkada Laydhka Iftin si laguu siiyo username iyo password.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© <span id="yr">2026</span> Shirkada Laydhka Iftin · Waxaa sameeyay <a href="/">Duale</a></div>
+</footer>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
