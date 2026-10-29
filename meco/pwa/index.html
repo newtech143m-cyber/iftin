@@ -67,7 +67,8 @@
   /* ====== LINK-GAAGA GOOGLE APPS SCRIPT (deployment-ka /exec) ====== */
   /* Web Push — furaha guud (waa in uu la mid noqdaa api/push.js) */
   var VAPID = 'BAI6NbCec4VdM7RjGOYqxxa2X2y4D7Z-vwuC9BzU15-0BBG2IP7SXz7XRUS0RLJgIYj_EsTM-llaLzmsDKrPY2o';
-  var APP_URL = 'https://script.google.com/macros/s/AKfycbxQ-QMkYjJ6f-JzV-DAgQvNa08k1mP7tlR0tFwp6hzblDzUHdFmiwu0ANgdRoTftMmvow/exec';
+  /* Link-ga GAS waxaa laga beddelaa vercel.json → /go (hal meel, APK-ga iyo PWA-ga labadaba) */
+  var APP_URL = location.origin + '/go';
   var APP = 'MECO POWER SUPPLY';
 
   var frame = document.getElementById('app'), splash = document.getElementById('splash');

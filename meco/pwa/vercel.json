@@ -1,14 +1,77 @@
 {
   "cleanUrls": true,
   "headers": [
-    { "source": "/sw.js", "headers": [ { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }, { "key": "Service-Worker-Allowed", "value": "/" } ] },
-    { "source": "/", "headers": [ { "key": "Cache-Control", "value": "no-cache" } ] },
-    { "source": "/index.html", "headers": [ { "key": "Cache-Control", "value": "no-cache" } ] },
-    { "source": "/manifest.webmanifest", "headers": [ { "key": "Content-Type", "value": "application/manifest+json" } ] },
-    { "source": "/(.*)\\.apk", "headers": [ { "key": "Content-Type", "value": "application/vnd.android.package-archive" }, { "key": "Content-Disposition", "value": "attachment; filename=\"MECO-Power-Supply.apk\"" }, { "key": "Cache-Control", "value": "no-cache" } ] }
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/"
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.apk",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/vnd.android.package-archive"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "attachment; filename=\"MECO-Power-Supply.apk\""
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    }
   ],
   "redirects": [
-    { "source": "/apk", "destination": "/MECO-Power-Supply.apk" },
-    { "source": "/app", "destination": "/download" }
+    {
+      "source": "/go",
+      "destination": "https://script.google.com/macros/s/AKfycbzOAYE9TIE8-xCGYLQEkiJljVAz-pHl5rIaNaB66fEO_lobtmf9R5N-5Ju7axc0H9A_/exec",
+      "permanent": false
+    },
+    {
+      "source": "/apk",
+      "destination": "/MECO-Power-Supply.apk"
+    },
+    {
+      "source": "/app",
+      "destination": "/download"
+    }
   ]
 }
