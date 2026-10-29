@@ -1,5 +1,5 @@
 /* MECO POWER SUPPLY — service worker: shell-ka waa la keydiyaa, had iyo jeer network-ka ayaa marka hore la isku dayaa (update toos ah) */
-const VERSION = 'meco-shell-v1';
+const VERSION = 'meco-shell-v2';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/favicon.png', 'icons/logo.png', 'icons/badge-96.png'];
 const APP = 'MECO POWER SUPPLY';
 
@@ -12,7 +12,7 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
-  if (/\.apk$|\/api\//.test(new URL(req.url).pathname)) return;   // APK iyo API — ha keydin
+  if (/\.apk$|^\/api\/|^\/go$/.test(new URL(req.url).pathname)) return;   // APK, API iyo /go (link-ga GAS) — ha keydin
   e.respondWith(
     fetch(req).then(res => {
       const copy = res.clone();
