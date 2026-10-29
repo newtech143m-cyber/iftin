@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="so">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>MECO POWER SUPPLY</title>
+<meta name="description" content="MECO POWER SUPPLY — Powering Mustaxiil. Nidaamka ururinta lacagta korontada">
+<meta name="theme-color" content="#00308F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="MECO">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
+<style>
+  :root { --navy:#00308F; --navy2:#1C4FC9; --red:#F5141B; --bg:#F3F5FA; --card:#fff; --ink:#0B1B44; --mut:#66749A; --track:#DFE5F2; }
+  @media (prefers-color-scheme:dark) { :root { --bg:#060E24; --card:#0D1938; --ink:#EAF0FF; --mut:#8F9DC2; --track:#1B2D5A; } .lgw { background:#fff; padding:14px 18px; border-radius:22px; box-shadow:0 10px 30px rgba(0,0,0,.35); } }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  html, body { height:100%; background:var(--bg); overflow:hidden; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; color:var(--ink); }
+  #app { position:fixed; inset:0; width:100%; height:100%; border:0; background:var(--bg); }
+  #splash { position:fixed; inset:0; z-index:5; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:var(--bg); transition:opacity .35s; }
+  #splash .lg { width:230px; height:auto; display:block; animation:pop .6s cubic-bezier(.2,.9,.3,1.2) both; }
+  #splash .bs { font-size:12px; font-weight:800; letter-spacing:6px; color:var(--red); margin:4px 0 14px; padding-left:6px; }
+  #splash small { color:var(--mut); font-size:13px; }
+  .bar { width:140px; height:4px; border-radius:4px; background:var(--track); overflow:hidden; position:relative; }
+  .bar::after { content:''; position:absolute; left:-40%; width:40%; height:100%; border-radius:4px; background:linear-gradient(90deg,var(--navy) 0 65%,var(--red) 65%); animation:ld 1s linear infinite; }
+  @keyframes ld { to { left:100%; } } @keyframes pop { from { transform:scale(.85); opacity:0; } }
+  .hide { opacity:0; pointer-events:none; }
+  #offline { position:fixed; left:12px; right:12px; top:calc(10px + env(safe-area-inset-top)); z-index:6; display:none; align-items:center; gap:10px; padding:12px 14px; border-radius:16px; background:#0B1B44; color:#fff; font-size:14px; box-shadow:0 10px 30px rgba(0,0,0,.25); }
+  #offline.on { display:flex; } #offline span { flex:1; }
+  #offline button, #install { border:0; font:inherit; font-weight:700; cursor:pointer; }
+  #offline button { background:#fff; color:var(--navy); padding:8px 12px; border-radius:10px; font-size:13px; }
+  #install { position:fixed; z-index:6; left:50%; transform:translateX(-50%); bottom:calc(92px + env(safe-area-inset-bottom)); padding:12px 18px; border-radius:16px; color:#fff;
+    background:linear-gradient(135deg,var(--navy),var(--navy2)); box-shadow:0 10px 24px rgba(0,48,143,.4); font-size:14px; display:none; align-items:center; gap:8px; white-space:nowrap; }
+  #install.on { display:flex; } #install i { font-style:normal; opacity:.8; margin-left:6px; }
+  #slow { display:none; margin-top:6px; }
+  #slow button { border:0; background:var(--card); color:var(--navy); font:inherit; font-weight:700; padding:9px 14px; border-radius:12px; box-shadow:0 4px 14px rgba(11,27,68,.08); }
+  #np { position:fixed; left:12px; right:12px; top:calc(10px + env(safe-area-inset-top)); z-index:7; display:none; align-items:center; gap:10px; padding:12px; border-radius:18px;
+    background:var(--card); color:var(--ink); box-shadow:0 12px 34px rgba(11,27,68,.22); border:1.5px solid #C6D4F4; border-left:5px solid var(--red); animation:drop .35s ease; }
+  #np.on { display:flex; } #np .ic { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; font-size:22px; background:linear-gradient(135deg,var(--navy),var(--navy2)); flex-shrink:0; }
+  #np .tx { flex:1; font-size:13px; line-height:1.35; } #np .tx b { display:block; font-size:14.5px; }
+  #np button { border:0; font:inherit; font-weight:700; cursor:pointer; }
+  #np .ok { background:var(--red); color:#fff; padding:10px 14px; border-radius:12px; font-size:13px; }
+  #np .x { background:none; color:var(--mut); font-size:18px; padding:4px 6px; }
+  @keyframes drop { from { transform:translateY(-30px); opacity:0; } }
+</style>
+</head>
+<body>
+  <div id="splash">
+    <div class="lgw"><img class="lg" src="icons/logo.png" alt="MECO"></div>
+    <div class="bs">POWER SUPPLY</div>
+    <div class="bar"></div>
+    <small id="stxt">Waa la soo rarayaa…</small>
+    <div id="slow"><button onclick="reloadApp()">↻ Dib u isku day</button></div>
+  </div>
+
+  <iframe id="app" title="MECO POWER SUPPLY" allow="clipboard-write; autoplay; fullscreen"></iframe>
+
+  <div id="offline"><span>📶 Internet ma jiro — marka uu soo laabto si toos ah ayaa loo xiriirinayaa</span><button onclick="reloadApp()">Isku day</button></div>
+  <div id="np"><div class="ic">🔔</div><div class="tx"><b id="npT">Oggolow ogeysiisyada</b><span id="npB">Si ogeysiisyadu (cod leh) kor ugu soo baxaan telefoonkaaga</span></div><button class="ok" id="npOk" onclick="askPerm()">Oggolow</button><button class="x" onclick="npLater()">✕</button></div>
+  <button id="install" onclick="installApp()">⬇ Ku rakib app-ka MECO <i onclick="event.stopPropagation();hideInstall()">✕</i></button>
+
+<script>
+  /* ====== LINK-GAAGA GOOGLE APPS SCRIPT (deployment-ka /exec) ====== */
+  /* Web Push — furaha guud (waa in uu la mid noqdaa api/push.js) */
+  var VAPID = 'BAI6NbCec4VdM7RjGOYqxxa2X2y4D7Z-vwuC9BzU15-0BBG2IP7SXz7XRUS0RLJgIYj_EsTM-llaLzmsDKrPY2o';
+  var APP_URL = 'https://script.google.com/macros/s/AKfycbxQ-QMkYjJ6f-JzV-DAgQvNa08k1mP7tlR0tFwp6hzblDzUHdFmiwu0ANgdRoTftMmvow/exec';
+  var APP = 'MECO POWER SUPPLY';
+
+  var frame = document.getElementById('app'), splash = document.getElementById('splash');
+  var loaded = false, deferredPrompt = null, swReg = null;
+
+  function hideSplash() { if (loaded) return; loaded = true; splash.classList.add('hide'); setTimeout(function () { splash.style.display = 'none'; }, 400); }
+  function reloadApp() {
+    loaded = false; splash.style.display = 'flex'; splash.classList.remove('hide');
+    document.getElementById('slow').style.display = 'none'; document.getElementById('stxt').textContent = 'Waa la soo rarayaa…';
+    frame.src = APP_URL + (APP_URL.indexOf('?') > -1 ? '&' : '?') + 'pwa=1&t=' + Date.now();
+    armSlow();
+  }
+  var slowT;
+  function armSlow() {
+    clearTimeout(slowT);
+    slowT = setTimeout(function () { if (!loaded) { document.getElementById('stxt').textContent = 'Shabakaddu way gaabisay…'; document.getElementById('slow').style.display = 'block'; } }, 15000);
+  }
+  frame.addEventListener('load', function () { setTimeout(hideSplash, 900); });
+  frame.src = APP_URL + (APP_URL.indexOf('?') > -1 ? '&' : '?') + 'pwa=1';
+  armSlow();
+
+  /* ====== Internet go'ay / soo laabtay ====== */
+  var off = document.getElementById('offline');
+  window.addEventListener('offline', function () { off.classList.add('on'); });
+  window.addEventListener('online', function () { off.classList.remove('on'); reloadApp(); });
+  if (navigator.onLine === false) off.classList.add('on');
+
+  /* ====== Rakibaadda (Install) ====== */
+  function isStandalone() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); deferredPrompt = e;
+    try { if (localStorage.getItem('meco_install_hide')) return; } catch (x) {}
+    if (!isStandalone()) document.getElementById('install').classList.add('on');
+  });
+  function installApp() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.finally(function () { deferredPrompt = null; hideInstall(); });
+  }
+  function hideInstall() { document.getElementById('install').classList.remove('on'); try { localStorage.setItem('meco_install_hide', '1'); } catch (x) {} }
+  window.addEventListener('appinstalled', hideInstall);
+
+  /* ====== Service worker (update toos ah) ====== */
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(function (r) {
+      swReg = r;
+      setInterval(function () { r.update(); }, 30 * 60 * 1000);
+    }).catch(function () {});
+    var refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function () { if (refreshing) return; refreshing = true; location.reload(); });
+    navigator.serviceWorker.addEventListener('message', function (e) { if (e.data && e.data.kp === 'resub') sendSub(lastSrc); });
+  }
+
+  /* ====== Ogeysiisyada telefoonka (pop-up kor ka soo dhaca, cod leh) ====== */
+  var hasN = ('Notification' in window) && ('serviceWorker' in navigator);
+  function perm() { return hasN ? Notification.permission : 'unsupported'; }
+  function npShow(title, body, btn) {
+    document.getElementById('npT').textContent = title; document.getElementById('npB').textContent = body;
+    var b = document.getElementById('npOk'); b.textContent = btn || 'Oggolow'; b.style.display = btn === '' ? 'none' : '';
+    document.getElementById('np').classList.add('on');
+  }
+  function npHide() { document.getElementById('np').classList.remove('on'); }
+  function npLater() { npHide(); try { localStorage.setItem('meco_np_later', String(Date.now())); } catch (x) {} }
+  function maybeAskPerm() {
+    if (!hasN) return;
+    var later = 0; try { later = Number(localStorage.getItem('meco_np_later') || 0); } catch (x) {}
+    if (Date.now() - later < 6 * 3600 * 1000) return;
+    if (perm() === 'default') npShow('Oggolow ogeysiisyada 🔔', 'Si ogeysiisyada MECO (cod leh) kor ugu soo baxaan telefoonkaaga', 'Oggolow');
+    else if (perm() === 'denied') npShow('Ogeysiisyadu waa xiran yihiin', 'Fur: ⋮ / 🔒 → Site settings → Notifications → Allow', '');
+  }
+  function askPerm() {
+    if (!hasN) return;
+    Notification.requestPermission().then(function (p) {
+      npHide();
+      if (p === 'granted') { showNotif('✅ Ogeysiisyada waa shaqeynayaan', 'Hadda ogeysiisyada ' + APP + ' waxay kor uga soo dhacayaan telefoonkaaga 🔔 — xitaa marka app-ku xiran yahay'); sendSub(lastSrc); }
+      else maybeAskPerm();
+    });
+  }
+  function showNotif(title, body) {
+    if (perm() !== 'granted') { maybeAskPerm(); return; }
+    var opt = { body: body || '', icon: 'icons/icon-192.png', badge: 'icons/badge-96.png', vibrate: [250, 120, 250, 120, 250],
+      tag: 'meco-' + Date.now(), renotify: true, silent: false, requireInteraction: false, timestamp: Date.now(), data: { url: './' } };
+    navigator.serviceWorker.ready.then(function (reg) { return reg.showNotification(title || APP, opt); })
+      .catch(function () { try { new Notification(title || APP, opt); } catch (x) {} });
+  }
+  setTimeout(maybeAskPerm, 2500);
+
+  /* ---- Web Push subscription (ogeysiis marka app-ku xiran yahay) ---- */
+  var lastSrc = null, lastOrigin = '*';
+  function b64u(s) { var p = '='.repeat((4 - s.length % 4) % 4), b = atob((s + p).replace(/-/g, '+').replace(/_/g, '/')), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
+  function ensureSub() {
+    if (perm() !== 'granted' || !('PushManager' in window)) return Promise.resolve(null);
+    return navigator.serviceWorker.ready.then(function (reg) {
+      return reg.pushManager.getSubscription().then(function (s) {
+        return s || reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64u(VAPID) });
+      });
+    }).then(function (s) { return s ? JSON.parse(JSON.stringify(s)) : null; }).catch(function () { return null; });
+  }
+  function sendSub(src) {
+    if (!src) return;
+    ensureSub().then(function (sub) { try { src.postMessage({ kp: 'sub', sub: sub, perm: perm(), push: 'PushManager' in window }, lastOrigin); } catch (x) {} });
+  }
+  function trusted(origin) { return /^https:\/\/([a-z0-9-]+\.)*(googleusercontent\.com|script\.google\.com)$/.test(origin); }
+  window.addEventListener('message', function (e) {
+    if (!trusted(e.origin) || !e.data || !e.data.kp) return;
+    var d = e.data;
+    if (e.source) { lastSrc = e.source; lastOrigin = e.origin; }
+    if (d.kp === 'getSub') { sendSub(e.source); return; }
+    if (d.kp === 'ready') hideSplash();
+    else if (d.kp === 'notify') showNotif(d.title, d.body);
+    else if (d.kp === 'askNotif') { if (perm() === 'default') askPerm(); else if (perm() === 'granted') { showNotif('✅ Ogeysiisyada waa shaqeynayaan', APP + ' 🔔'); sendSub(e.source); } else maybeAskPerm(); }
+    else if (d.kp === 'badge') {
+      try { if (navigator.setAppBadge) { d.n > 0 ? navigator.setAppBadge(d.n) : navigator.clearAppBadge(); } } catch (x) {}
+    }
+  });
+</script>
+</body>
+</html>

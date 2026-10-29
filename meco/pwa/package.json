@@ -1,0 +1,9 @@
+{
+  "name": "meco-power-supply",
+  "private": true,
+  "version": "2.1.0",
+  "description": "MECO POWER SUPPLY PWA shell + web push + Android APK download",
+  "dependencies": {
+    "web-push": "^3.6.7"
+  }
+}
