@@ -121,7 +121,7 @@
   try { ROLE = localStorage.getItem('meco_role') || ''; BIO_ID = localStorage.getItem('meco_bio_id') || ''; } catch (e) {}
   document.getElementById('lkBtn').textContent = '🔓 Fur — ' + BIO_NAME;
   document.getElementById('boT').textContent = 'Daar ' + BIO_NAME;
-  function staffRole() { return ROLE === 'admin' || ROLE === 'staff'; }
+  function staffRole() { return ROLE === 'admin' || ROLE === 'staff' || ROLE === 'treasurer'; }
   function hasWA() { return !!(window.PublicKeyCredential && navigator.credentials && navigator.credentials.create); }
   function rnd(n) { var a = new Uint8Array(n); crypto.getRandomValues(a); return a; }
   function b64e(buf) { var s = '', a = new Uint8Array(buf); for (var i = 0; i < a.length; i++) s += String.fromCharCode(a[i]); return btoa(s).replace(/\+/g, '-').replace(/[/]/g, '_').replace(/=+$/, ''); }
@@ -154,7 +154,7 @@
   function bioEnroll() {
     document.getElementById('bioOffer').classList.remove('on');
     navigator.credentials.create({ publicKey: { challenge: rnd(32), rp: { name: APP, id: location.hostname },
-      user: { id: rnd(16), name: 'meco-' + ROLE, displayName: 'MECO (' + (ROLE === 'admin' ? 'Maamulaha' : 'Shaqaale') + ')' },
+      user: { id: rnd(16), name: 'meco-' + ROLE, displayName: 'MECO (' + (ROLE === 'admin' ? 'Maamulaha' : ROLE === 'treasurer' ? 'Qasnad Haye' : 'Shaqaale') + ')' },
       pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
       authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'discouraged' }, timeout: 60000, attestation: 'none' } })
       .then(function (c) { BIO_ID = b64e(c.rawId); try { localStorage.setItem('meco_bio_id', BIO_ID); } catch (e) {} showNotif('✅ ' + BIO_NAME + ' waa la daaray', 'Mar kasta oo MECO la furo waxaa la weydiinayaa ' + BIO_NAME); })
