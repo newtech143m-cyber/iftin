@@ -2,5 +2,5 @@
 
 Nidaamka ururinta lacagta korontada (IFTIN Electric Company).
 
-- **APK:** [app/Iftin.apk](app/Iftin.apk) (v1.4)
+- **APK:** [app/Iftin.apk](app/Iftin.apk) (v1.5)
 - Bogga lagala soo dego: https://duale-portfolio.vercel.app/iftin
