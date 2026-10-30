@@ -25,15 +25,23 @@
   .meta { font-size:12px; color:var(--mut); margin-top:8px; }
   ol { text-align:left; margin:20px 0 0; padding:14px 16px 14px 34px; background:var(--bg); border-radius:16px; font-size:13.5px; line-height:1.6; }
   ol b { color:var(--ink); } li { margin:2px 0; }
+  .tabs { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:4px 0 6px; }
+  .tabs button { border:0; font:inherit; font-weight:700; font-size:14px; padding:11px; border-radius:14px; background:var(--bg); color:var(--mut); cursor:pointer; }
+  .tabs button.on { background:var(--navy); color:#fff; }
+  .pane { display:none; } .pane.on { display:block; }
+  .ios-share { display:inline-grid; place-items:center; width:22px; height:22px; border-radius:6px; background:#0A84FF; color:#fff; font-size:13px; vertical-align:-5px; }
+  .tip { margin-top:14px; padding:12px 14px; border-radius:14px; background:rgba(245,20,27,.08); color:var(--ink); font-size:13px; line-height:1.5; text-align:left; border-left:4px solid var(--red); }
 </style>
 </head>
 <body>
   <div class="card">
     <div class="lgw"><img src="icons/logo.png" alt="MECO"></div>
     <div class="bs">POWER SUPPLY</div>
-    <h1>App-ka Android</h1>
+    <h1>Soo deji app-ka MECO</h1>
     <p>Lacag-bixinta korontada, biilasha, wararka iyo ogeysiisyada (cod leh) — hal meel.</p>
-    <a class="btn" href="MECO-Power-Supply.apk" download="MECO-Power-Supply.apk">⬇ Soo deji APK</a>
+    <div class="tabs" style="margin-top:16px"><button id="tA" onclick="tab('a')">🤖 Android</button><button id="tI" onclick="tab('i')">📱 iPhone</button></div>
+    <div class="pane" id="pA">
+        <a class="btn" href="MECO-Power-Supply.apk" download="MECO-Power-Supply.apk">⬇ Soo deji APK</a>
     <div class="meta">Version 2.3 · Android 7.0 ama ka sareeya</div>
     <a class="btn ghost" href="./">🌐 Ku fur browser-ka (app-ka web)</a>
     <ol>
@@ -42,6 +50,26 @@
       <li>Riix <b>Install</b> → <b>Open</b>, kadib gal (login).</li>
       <li>Marka la weydiiyo ogeysiisyada riix <b>Allow</b> — si ay kor ugu soo dhacaan xitaa marka app-ku xiran yahay.</li>
     </ol>
+    </div>
+    <div class="pane" id="pI">
+      <a class="btn" href="./">📱 Fur app-ka MECO</a>
+      <div class="meta">iPhone · iOS 16.4 ama ka sareeya · Safari</div>
+      <ol>
+        <li>Bogga ku fur <b>Safari</b> (Chrome iPhone-ka kuma shaqeeyo rakibaadda).</li>
+        <li>Riix <b>Fur app-ka MECO</b>, kadib riix badhanka <span class="ios-share">⬆</span> <b>Share</b> (hoosta).</li>
+        <li>Dooro <b>“Add to Home Screen”</b> → <b>Add</b>. Icon-ka MECO ayaa ku soo baxaya shaashadda.</li>
+        <li>Ka fur icon-ka MECO, kadib gal (login).</li>
+        <li>Admin & staff: marka la weydiiyo <b>“Daar Face ID”</b> riix <b>Daar</b> — mar kasta oo app-ka la furo Face ID ayaa la weydiinayaa.</li>
+        <li>Ogeysiisyada: marka la weydiiyo riix <b>Allow</b>.</li>
+      </ol>
+      <div class="tip">💡 Face ID iyo ogeysiisyadu waxay si fiican ugu shaqeeyaan marka app-ka laga furo <b>icon-ka Home Screen-ka</b>, ee aan ahayn Safari tab.</div>
+    </div>
   </div>
+<script>
+  function tab(t) { document.getElementById('pA').classList.toggle('on', t === 'a'); document.getElementById('pI').classList.toggle('on', t === 'i');
+    document.getElementById('tA').classList.toggle('on', t === 'a'); document.getElementById('tI').classList.toggle('on', t === 'i'); }
+  var ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  tab(ios ? 'i' : 'a');
+</script>
 </body>
 </html>

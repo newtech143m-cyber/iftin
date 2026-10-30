@@ -45,6 +45,21 @@
   #np button { border:0; font:inherit; font-weight:700; cursor:pointer; }
   #np .ok { background:var(--red); color:#fff; padding:10px 14px; border-radius:12px; font-size:13px; }
   #np .x { background:none; color:var(--mut); font-size:18px; padding:4px 6px; }
+  /* ===== Qufulka Face ID / faraha (admin & staff) ===== */
+  #lock { position:fixed; inset:0; z-index:9; display:none; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:24px; text-align:center;
+    background:radial-gradient(circle at 50% 30%,rgba(0,48,143,.14),transparent 55%),var(--bg); }
+  #lock.on { display:flex; }
+  #lock .lk { width:84px; height:84px; border-radius:28px; display:grid; place-items:center; font-size:40px; background:linear-gradient(135deg,#0A2470,var(--navy)); box-shadow:0 14px 30px rgba(0,48,143,.35); margin:10px 0 4px; }
+  #lock b { font-size:19px; } #lock small { color:var(--mut); font-size:13.5px; max-width:300px; line-height:1.5; }
+  #lock button { border:0; font:inherit; font-weight:700; cursor:pointer; padding:14px 22px; border-radius:16px; min-width:240px; }
+  #lock .go { background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff; font-size:15.5px; box-shadow:0 10px 24px rgba(0,48,143,.35); margin-top:8px; }
+  #lock .out { background:transparent; color:var(--mut); font-size:13.5px; padding:8px; }
+  #lock .err { color:var(--red); font-weight:700; font-size:13px; min-height:18px; }
+  #bioOffer { position:fixed; left:12px; right:12px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:8; display:none; gap:12px; align-items:center; padding:14px; border-radius:20px;
+    background:var(--card); color:var(--ink); box-shadow:0 14px 40px rgba(11,27,68,.28); border:1.5px solid #C6D4F4; border-left:5px solid var(--navy); animation:drop .35s ease; }
+  #bioOffer.on { display:flex; } #bioOffer .ic { font-size:30px; } #bioOffer .tx { flex:1; font-size:13px; line-height:1.4; } #bioOffer .tx b { display:block; font-size:15px; }
+  #bioOffer .col { display:flex; flex-direction:column; gap:6px; } #bioOffer button { border:0; font:inherit; font-weight:700; cursor:pointer; border-radius:12px; padding:10px 14px; font-size:13px; }
+  #bioOffer .y { background:var(--navy); color:#fff; } #bioOffer .n { background:transparent; color:var(--mut); padding:4px; }
   @keyframes drop { from { transform:translateY(-30px); opacity:0; } }
 </style>
 </head>
@@ -57,6 +72,14 @@
     <div id="slow"><button onclick="reloadApp()">↻ Dib u isku day</button></div>
   </div>
 
+  <div id="lock"><div class="lgw"><img class="lg" src="icons/logo.png" alt="MECO" style="width:170px"></div>
+    <div class="lk">🔒</div><b>Xaqiiji inaad adigu tahay</b>
+    <small id="lkTxt">Isticmaal Face ID, faraha ama passcode-ka telefoonkaaga si aad u furto MECO.</small>
+    <div class="err" id="lkErr"></div>
+    <button class="go" id="lkBtn" onclick="bioUnlock()">🔓 Fur</button>
+    <button class="out" onclick="bioPassword()">Ku gal password (dib u gal)</button></div>
+  <div id="bioOffer"><div class="ic">🔐</div><div class="tx"><b id="boT">Daar Face ID</b>Si qof kale uusan u furin app-ka MECO — mar kasta oo la furo waxaa la weydiinayaa.</div>
+    <div class="col"><button class="y" onclick="bioEnroll()">Daar</button><button class="n" onclick="bioLater()">Hadda maya</button></div></div>
   <iframe id="app" title="MECO POWER SUPPLY" allow="clipboard-write; autoplay; fullscreen"></iframe>
 
   <div id="offline"><span>📶 Internet ma jiro — marka uu soo laabto si toos ah ayaa loo xiriirinayaa</span><button onclick="reloadApp()">Isku day</button></div>
@@ -89,6 +112,59 @@
   frame.addEventListener('load', function () { setTimeout(hideSplash, 900); });
   frame.src = APP_URL + (APP_URL.indexOf('?') > -1 ? '&' : '?') + 'pwa=1';
   armSlow();
+
+
+  /* ====== Qufulka Face ID / Touch ID / faraha — admin & staff oo kaliya (WebAuthn, telefoonka ayaa xaqiijiya) ====== */
+  var IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var BIO_NAME = IOS ? 'Face ID' : 'faraha / wajiga';
+  var ROLE = '', BIO_ID = '', locked = false, hiddenAt = 0, RELOCK_MS = 5 * 60 * 1000;
+  try { ROLE = localStorage.getItem('meco_role') || ''; BIO_ID = localStorage.getItem('meco_bio_id') || ''; } catch (e) {}
+  document.getElementById('lkBtn').textContent = '🔓 Fur — ' + BIO_NAME;
+  document.getElementById('boT').textContent = 'Daar ' + BIO_NAME;
+  function staffRole() { return ROLE === 'admin' || ROLE === 'staff'; }
+  function hasWA() { return !!(window.PublicKeyCredential && navigator.credentials && navigator.credentials.create); }
+  function rnd(n) { var a = new Uint8Array(n); crypto.getRandomValues(a); return a; }
+  function b64e(buf) { var s = '', a = new Uint8Array(buf); for (var i = 0; i < a.length; i++) s += String.fromCharCode(a[i]); return btoa(s).replace(/\+/g, '-').replace(/[/]/g, '_').replace(/=+$/, ''); }
+  function lockShow() { locked = true; document.getElementById('lkErr').textContent = ''; document.getElementById('lock').classList.add('on'); }
+  function lockHide() { locked = false; document.getElementById('lock').classList.remove('on'); }
+  function maybeLock() { if (staffRole() && BIO_ID && hasWA()) { lockShow(); if (!IOS) setTimeout(bioUnlock, 300); } }
+  function bioUnlock() {
+    if (!BIO_ID) return lockHide();
+    navigator.credentials.get({ publicKey: { challenge: rnd(32), rpId: location.hostname, timeout: 60000, userVerification: 'required',
+      allowCredentials: [{ type: 'public-key', id: b64u(BIO_ID), transports: ['internal', 'hybrid'] }] } })
+      .then(function (c) {
+        var ad = c && c.response && new Uint8Array(c.response.authenticatorData);
+        if (ad && ad.length > 32 && (ad[32] & 4)) lockHide();   /* UV = Face ID / faraha / passcode waa la xaqiijiyay */
+        else document.getElementById('lkErr').textContent = 'Lama xaqiijin — isku day mar kale';
+      })
+      .catch(function () { document.getElementById('lkErr').textContent = 'Lama xaqiijin — riix "Fur" oo isku day mar kale'; });
+  }
+  function bioPassword() {
+    /* Face ID la'aan: ka saar qufulka, oo app-ka ka bixi (logout) — password ayaa loo baahan yahay */
+    try { localStorage.removeItem('meco_bio_id'); } catch (e) {}
+    BIO_ID = ''; lockHide();
+    try { (frame.contentWindow.frames[0] || frame.contentWindow).postMessage({ kp: 'logout' }, '*'); } catch (e) {}
+  }
+  function bioOfferMaybe() {
+    if (!staffRole() || BIO_ID || !hasWA() || !PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) return;
+    try { if (Date.now() - Number(localStorage.getItem('meco_bio_later') || 0) < 3 * 24 * 3600 * 1000) return; } catch (e) {}
+    PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(function (ok) { if (ok && staffRole() && !BIO_ID) document.getElementById('bioOffer').classList.add('on'); }).catch(function () {});
+  }
+  function bioLater() { document.getElementById('bioOffer').classList.remove('on'); try { localStorage.setItem('meco_bio_later', String(Date.now())); } catch (e) {} }
+  function bioEnroll() {
+    document.getElementById('bioOffer').classList.remove('on');
+    navigator.credentials.create({ publicKey: { challenge: rnd(32), rp: { name: APP, id: location.hostname },
+      user: { id: rnd(16), name: 'meco-' + ROLE, displayName: 'MECO (' + (ROLE === 'admin' ? 'Maamulaha' : 'Shaqaale') + ')' },
+      pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+      authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'discouraged' }, timeout: 60000, attestation: 'none' } })
+      .then(function (c) { BIO_ID = b64e(c.rawId); try { localStorage.setItem('meco_bio_id', BIO_ID); } catch (e) {} showNotif('✅ ' + BIO_NAME + ' waa la daaray', 'Mar kasta oo MECO la furo waxaa la weydiinayaa ' + BIO_NAME); })
+      .catch(function () { bioLater(); });
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) hiddenAt = Date.now();
+    else if (hiddenAt && Date.now() - hiddenAt >= RELOCK_MS && !locked) maybeLock();
+  });
+  maybeLock();
 
   /* ====== Internet go'ay / soo laabtay ====== */
   var off = document.getElementById('offline');
@@ -177,6 +253,7 @@
     var d = e.data;
     if (e.source) { lastSrc = e.source; lastOrigin = e.origin; }
     if (d.kp === 'getSub') { sendSub(e.source); return; }
+    if (d.kp === 'role') { ROLE = d.role || ''; try { localStorage.setItem('meco_role', ROLE); } catch (x) {} if (staffRole()) setTimeout(bioOfferMaybe, 4000); else document.getElementById('bioOffer').classList.remove('on'); return; }
     if (d.kp === 'ready') hideSplash();
     else if (d.kp === 'notify') showNotif(d.title, d.body);
     else if (d.kp === 'askNotif') { if (perm() === 'default') askPerm(); else if (perm() === 'granted') { showNotif('✅ Ogeysiisyada waa shaqeynayaan', APP + ' 🔔'); sendSub(e.source); } else maybeAskPerm(); }

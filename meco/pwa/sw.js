@@ -1,5 +1,5 @@
 /* MECO POWER SUPPLY — service worker: shell-ka waa la keydiyaa, had iyo jeer network-ka ayaa marka hore la isku dayaa (update toos ah) */
-const VERSION = 'meco-shell-v2';
+const VERSION = 'meco-shell-v3';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/favicon.png', 'icons/logo.png', 'icons/badge-96.png'];
 const APP = 'MECO POWER SUPPLY';
 
